@@ -17,16 +17,12 @@ template Test(nInputs) {
 
     signal poseidon[nInputs + 1] <== Poseidon(nInputs)(inputs, initialState);
 
-    // component poseidon = Poseidon(nInputs);
-    // poseidon.inputs <== inputs;
-    // poseidon.initialState <== initialState;
-
+    // Check that both Poseidon return the same value
     for(var i = 0; i < nInputs + 1; i++) {
         poseidon[i] === custPoseidon[i];
     }
 
     out <== poseidon[0];
-    // out <== custPoseidon[0];
 }
 
 component main = Test(4);
