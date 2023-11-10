@@ -1,0 +1,44 @@
+{
+  "name": "devconnect",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test-poseidon": "mocha circom/test/poseidon.circuit.test.js",
+    "compile": "circom --O1 --r1cs --wasm --c --inspect --verbose circom/circuits/test.circom -l circom/circuits -o tmp",
+    "gen-witness-js": "node tmp/test_js/generate_witness.js tmp/test_js/test.wasm circom/test/input.json tmp/witness.wtns",
+    "gen-witness-cpp": "cd tmp/test_cpp && make && ./test ../../circom/test/input.json ../witness.wtns",
+    "downloadptaw": "wget -P tmp https://hermez.s3-eu-west-1.amazonaws.com/powersOfTau28_hez_final_15.ptau",
+    "prefflonk-setup": "[ -f tmp/powersOfTau28_hez_final_15.ptau ] || npm run downloadptaw",
+    "fflonk": "npm run fflonk-setup && npm run fflonk-verificationkey && npm run fflonk-prove && npm run fflonk-verify && npm run fflonk-solidity-verifier && npm run fflonk-calldata",
+    "fflonk-setup": "snarkjs ffs tmp/test.r1cs tmp/powersOfTau28_hez_final_15.ptau tmp/test_fflonk.zkey",
+    "fflonk-prove": "snarkjs ffp tmp/test_fflonk.zkey tmp/witness.wtns tmp/proof_fflonk.json tmp/public_fflonk.json",
+    "fflonk-verificationkey": "snarkjs zkev tmp/test_fflonk.zkey tmp/test_verification_key_fflonk.json",
+    "fflonk-verify": "snarkjs ffv tmp/test_verification_key_fflonk.json tmp/public.json tmp/proof_fflonk.json",
+    "fflonk-calldata": "snarkjs zkesc tmp/public_fflonk.json tmp/proof_fflonk.json",
+    "fflonk-solidity-verifier": "snarkjs zkesv tmp/test_fflonk.zkey tmp/test_fflonk.sol",
+    "groth16": "npm run groth16-setup && npm run groth16-prove && npm run groth16-verificationkey && npm run groth16-verify",
+    "groth16-setup": "snarkjs g16s tmp/test.r1cs tmp/powersOfTau28_hez_final_15.ptau tmp/test_g16.zkey",
+    "groth16-prove": "snarkjs g16p tmp/test_g16.zkey tmp/witness.wtns tmp/proof_g16.json tmp/public_g16.json",
+    "groth16-verificationkey": "snarkjs zkev tmp/test_g16.zkey tmp/test_verification_key_g16.json",
+    "groth16-verify": "snarkjs g16v tmp/test_verification_key_g16.json tmp/public_g16.json tmp/proof_g16.json",
+    "compile-example-tags": "circom --O1 --r1cs --inspect --verbose circom/circuits/example/example_tags_anonymous.circom -o tmp",
+    "compile-example-no-tags": "circom --O1 --r1cs --inspect --verbose circom/circuits/example/example_no_tags_no_anonymous.circom -o tmp",
+    "compile-example-inspect": "circom --O1 --r1cs --inspect --verbose circom/circuits/inspect/example.circom -o tmp -l node_modules/circomlib/circuits"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "circom_runtime": "^0.1.18",
+    "circomlib": "^2.0.5",
+    "circomlibjs": "^0.1.6",
+    "ffjavascript": "^0.2.62",
+    "snarkjs": "^0.7.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-as-promised": "^7.1.1",
+    "circom_tester": "^0.0.18",
+    "mocha": "^10.0.0"
+  }
+}
