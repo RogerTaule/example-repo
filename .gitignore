@@ -1,2 +1,16 @@
 tmp/*
 node_modules/*
+
+artifacts
+cache
+
+get-NFT-test_js
+get-NFT-test.r1cs
+getnft_0000.zkey
+getnft_0001.zkey
+pot13_0000.ptau
+pot13_0001.ptau
+pot13_final.ptau
+verification_key.json
+verifier.sol
+.env
