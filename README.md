@@ -38,7 +38,7 @@ In this repo one can find two different, although equivalent, templates that cal
 You can compile the circuit using
 
 ```sh
-npm run compile-example-inspect
+npm run compile
 ```
 
 Then, witness can be generated either with JS:
