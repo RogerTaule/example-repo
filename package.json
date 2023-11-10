@@ -14,7 +14,7 @@
     "fflonk-setup": "snarkjs ffs tmp/test.r1cs tmp/powersOfTau28_hez_final_15.ptau tmp/test_fflonk.zkey",
     "fflonk-prove": "snarkjs ffp tmp/test_fflonk.zkey tmp/witness.wtns tmp/proof_fflonk.json tmp/public_fflonk.json",
     "fflonk-verificationkey": "snarkjs zkev tmp/test_fflonk.zkey tmp/test_verification_key_fflonk.json",
-    "fflonk-verify": "snarkjs ffv tmp/test_verification_key_fflonk.json tmp/public.json tmp/proof_fflonk.json",
+    "fflonk-verify": "snarkjs ffv tmp/test_verification_key_fflonk.json tmp/public_fflonk.json tmp/proof_fflonk.json",
     "fflonk-calldata": "snarkjs zkesc tmp/public_fflonk.json tmp/proof_fflonk.json",
     "fflonk-solidity-verifier": "snarkjs zkesv tmp/test_fflonk.zkey tmp/test_fflonk.sol",
     "groth16": "npm run groth16-setup && npm run groth16-prove && npm run groth16-verificationkey && npm run groth16-verify",
